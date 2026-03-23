@@ -1,0 +1,27 @@
+{
+    "name": "helvetitec/flowengine",
+    "description": "Statemachine bots for conversations in Laravel",
+    "type": "library",
+    "autoload": {
+        "psr-4": {
+            "Helvetitec\\FlowEngine\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Roman Wanner",
+            "email": "60240491+daredloco@users.noreply.github.com"
+        }
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Helvetitec\\FlowEngine\\FlowEngineServiceProvider"
+            ]
+        }
+    },
+    "require-dev": {
+        "orchestra/testbench": "^9",
+        "larastan/larastan": "^3.0"
+    }
+}
