@@ -2,7 +2,6 @@
 
 A simple, flexible state machine engine for Laravel to handle dynamic flows like chats, onboarding, workflows, and more.
 
----
 
 ## 🚀 Concept
 
@@ -17,7 +16,6 @@ Typical flow:
 5. Stop execution
 6. Resume later (via new input or cooldown)
 
----
 
 ## 🧱 Core Components
 
@@ -34,7 +32,6 @@ abstract class FlowEngine
 }
 ```
 
----
 
 ### FlowSubject
 
@@ -56,7 +53,6 @@ interface FlowSubject
 }
 ```
 
----
 
 ## ⚡ Example Implementation
 
@@ -107,7 +103,6 @@ class Chat extends Model implements FlowSubject
 }
 ```
 
----
 
 ### 2. Flow
 
@@ -151,7 +146,6 @@ class ChatFlow extends FlowEngine
 }
 ```
 
----
 
 ### 3. Triggering the Flow
 
@@ -166,7 +160,6 @@ You typically call this from:
 * Event listeners
 * Webhooks
 
----
 
 ## 🔁 Flow Lifecycle
 
@@ -184,7 +177,6 @@ Input → run() → doRun()
    persist()
 ```
 
----
 
 ## 🧩 Helper Methods
 
@@ -194,7 +186,6 @@ Input → run() → doRun()
 $this->transition('next_state');
 ```
 
----
 
 ### Store data in context
 
@@ -204,7 +195,6 @@ $this->set('key', 'value');
 $value = $this->get('key');
 ```
 
----
 
 ### Cooldown
 
@@ -212,7 +202,6 @@ $value = $this->get('key');
 $this->cooldown(now()->addMinutes(10));
 ```
 
----
 
 ### Stop execution
 
@@ -226,7 +215,6 @@ or
 $this->stopWithoutPersist();
 ```
 
----
 
 ## ⚠️ Important Rules
 
@@ -240,7 +228,6 @@ app(MyFlow::class)->run($subject, $input);
 $flow->doRun($input);
 ```
 
----
 
 ### 2. Always stop after sending output
 
@@ -249,13 +236,11 @@ $this->transition('next')
      ->stop();
 ```
 
----
 
 ### 3. Do not persist manually
 
 Persistence is handled automatically by the engine.
 
----
 
 ### 4. Use state keys as strings
 
@@ -265,7 +250,6 @@ Persistence is handled automatically by the engine.
 'completed'
 ```
 
----
 
 ## 🧠 Design Philosophy
 
@@ -275,17 +259,6 @@ Persistence is handled automatically by the engine.
 * Framework-agnostic logic
 * Minimal database structure
 
----
-
-## 🔮 Future Ideas
-
-* Database-driven flows
-* Visual flow builder
-* Nested flows
-* Retry / failure states
-* Event-based triggers
-
----
 
 ## ✅ Summary
 
@@ -299,6 +272,6 @@ FlowEngine gives you:
 
 ---
 
-## 📄 License
+## 📄 AI Usage
 
-MIT
+AI was used to create this readme file and for smaller parts of the code to make it cleaner.
