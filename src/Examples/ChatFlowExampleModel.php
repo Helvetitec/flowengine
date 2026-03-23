@@ -4,10 +4,13 @@ namespace Helvetitec\FlowEngine\Examples;
 
 use Carbon\Carbon;
 use Helvetitec\FlowEngine\Contracts\FlowSubject;
+use Helvetitec\FlowEngine\Traits\HasFlow;
 use Illuminate\Database\Eloquent\Model;
 
 class ChatFlowExampleModel extends Model implements FlowSubject
 {
+    use HasFlow;
+    
     protected $casts = [
         'context' => 'array',
         'cooldown_until' => 'datetime',
