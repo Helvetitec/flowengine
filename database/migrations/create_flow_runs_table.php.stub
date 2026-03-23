@@ -1,0 +1,42 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+class CreateFlowRunsTable extends Migration
+{
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */    
+    public function up()   
+    {      
+        Schema::create('flow_runs', function (Blueprint $table){              
+            $table->id();
+            $table->morphs('subject');
+            $table->string('flow_class');
+            $table->string('state_key');
+            $table->json('context')->nullable();
+            $table->dateTime('cooldown_until')->nullable();
+            $table->boolean('active')->default(true);
+            $table->timestamps();
+
+            $table->index('flow_class');
+            $table->index('active');
+            $table->unique(['subject_type', 'subject_id', 'flow_class']);
+            
+        });     
+    }
+        
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */     
+    public function down()     
+    {        
+        Schema::dropIfExists('flow_runs');    
+    }
+}

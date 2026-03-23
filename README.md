@@ -58,7 +58,9 @@ interface FlowSubject
 
 ## ⚡ Example Implementation
 
-### 1. Subject (e.g. Chat)
+### 1.1. Subject (e.g. Chat)
+
+If you only want to use one flow at a time.
 
 ```php
 class Chat extends Model implements FlowSubject
@@ -90,7 +92,7 @@ class Chat extends Model implements FlowSubject
         $this->context = $context;
     }
 
-    public function getCooldown(): Carbon
+    public function getCooldown(): ?Carbon
     {
         return $this->cooldown_until;
     }
@@ -107,6 +109,36 @@ class Chat extends Model implements FlowSubject
 }
 ```
 
+### 1.2. FlowRun (Recomended)
+
+If you want you can use the FlowRuns which would allow multiple FlowEngines running at the same time.
+**Important:** If you use this, please run php artisan vendor:publish --tag="helvetitec.flowengine.migrations"
+
+```php
+//Add to your Subject (e.g Chat)
+class Chat extends Model
+{
+    public function flowRuns()
+    {
+        return $this->morphMany(FlowRun::class, 'subject');
+    }
+
+    public function runFlow(string $flowClass, mixed $input = null, bool $force = false)
+    {
+        $flowRun = $this->flowRuns()->firstOrCreate(
+            [
+                'flow_class' => $flowClass
+            ],
+            [
+                'state_key' => 'start', 
+                'active' => true
+            ]
+        );
+
+        $flowRun->runFlow($input, $force);
+    }
+}
+```
 
 ### 2. Flow
 
@@ -162,6 +194,13 @@ or
 ```php 
 //With use HasFlow;
 $chat->runFlow($message);
+```
+
+or 
+
+```php
+//With FlowRun
+$chat->runFlow(ChatFlow::class, $message, $force);
 ```
 
 You typically call this from:
