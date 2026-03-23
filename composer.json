@@ -2,6 +2,7 @@
     "name": "helvetitec/flowengine",
     "description": "Statemachine bots for conversations in Laravel",
     "type": "library",
+    "license": "MIT",
     "autoload": {
         "psr-4": {
             "Helvetitec\\FlowEngine\\": "src/"
