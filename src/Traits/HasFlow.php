@@ -13,6 +13,6 @@ trait HasFlow
 
     public function runFlow(mixed $input = null): void
     {
-        $this->flowEngine()->handle($this, $input);
+        $this->flowEngine()->run($this, $input);
     }
 }

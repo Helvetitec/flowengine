@@ -2,15 +2,57 @@
 
 namespace Helvetitec\FlowEngine;
 
+use Carbon\Carbon;
 use Helvetitec\FlowEngine\Contracts\FlowSubject;
+use Helvetitec\FlowEngine\Exceptions\StopFlowException;
 
 abstract class FlowEngine
 {
-    abstract public function handle(FlowSubject $subject, mixed $input): void;
+    protected FlowSubject $subject;
 
-    protected function transition(FlowSubject $subject, string $nextState): void
+    abstract protected function doRun(mixed $input): void;
+
+    final public function run(FlowSubject $subject, mixed $input): void
     {
-        $subject->setStateKey($nextState);
-        $subject->persist();
+        $this->subject = $subject;
+
+        try{
+            $this->doRun($input);
+            $subject->persist();
+        }catch(StopFlowException $e){
+            if($e->persist){
+                $subject->persist();
+            }
+        }
+    }
+
+    final protected function cooldown(Carbon $until): static
+    {
+        $this->subject->setCooldown($until);
+        return $this;
+    }
+
+    protected function transition(string $nextState): static
+    {
+        $this->subject->setStateKey($nextState);
+        return $this;
+    }
+
+    protected function set(string $key, mixed $value): static
+    {
+        $context = $this->subject->getContext();
+        $context[$key] = $value;
+        $this->subject->setContext($context);
+        return $this;
+    }
+
+    protected function get(string $key, mixed $default = null): mixed
+    {
+        return $this->subject->getContext()[$key] ?? $default;
+    }
+
+    protected function stop(bool $persist): never
+    {
+        throw new StopFlowException($persist);
     }
 }

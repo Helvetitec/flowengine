@@ -2,6 +2,8 @@
 
 namespace Helvetitec\FlowEngine\Contracts;
 
+use Carbon\Carbon;
+
 interface FlowSubject
 {
     public function getStateKey(): string;
@@ -10,5 +12,8 @@ interface FlowSubject
     public function getContext(): array;
     public function setContext(array $context): void;
 
+    public function getCooldown(): Carbon;
+    public function setCooldown(Carbon $until): void;
+    
     public function persist(): void;
 }
