@@ -112,6 +112,7 @@ class Chat extends Model implements FlowSubject
 ### 1.2. FlowRun (Recomended)
 
 If you want you can use the FlowRuns which would allow multiple FlowEngines running at the same time.
+
 **Important:** If you use this, please run php artisan vendor:publish --tag="helvetitec.flowengine.migrations"
 
 ```php
