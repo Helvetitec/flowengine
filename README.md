@@ -72,6 +72,11 @@ class Chat extends Model implements FlowSubject
         'cooldown_until' => 'datetime',
     ];
 
+    public function getActive(): bool
+    {
+        return $this->active;
+    }
+
     public function getStateKey(): string
     {
         return $this->state_key;
