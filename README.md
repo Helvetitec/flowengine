@@ -49,6 +49,7 @@ interface FlowSubject
     public function getContext(): array;
     public function setContext(array $context): void;
 
+    public function getCooldown(): Carbon;
     public function setCooldown(Carbon $until): void;
 
     public function persist(): void;
@@ -89,6 +90,11 @@ class Chat extends Model implements FlowSubject
         $this->context = $context;
     }
 
+    public function getCooldown(): Carbon
+    {
+        return $this->cooldown_until;
+    }
+
     public function setCooldown(Carbon $until): void
     {
         $this->cooldown_until = $until;
@@ -110,7 +116,7 @@ class ChatFlow extends FlowEngine
 {
     protected function doRun(mixed $input): void
     {
-        $state = $this->subject()->getStateKey();
+        $state = $this->subject->getStateKey();
 
         match ($state) {
             'start' => $this->start(),
@@ -121,7 +127,7 @@ class ChatFlow extends FlowEngine
 
     protected function start(): void
     {
-        ChatService::send($this->subject(), "Choose 1 or 2");
+        ChatService::send($this->subject, "Choose 1 or 2");
 
         $this->transition('waiting')
              ->stop();
@@ -129,7 +135,7 @@ class ChatFlow extends FlowEngine
 
     protected function handleAnswer($input): void
     {
-        ChatService::send($this->subject(), "You chose: {$input}");
+        ChatService::send($this->subject, "You chose: {$input}");
 
         $this->transition('done')
              ->cooldown(now()->addMinutes(5))

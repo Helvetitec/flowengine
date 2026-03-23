@@ -11,9 +11,13 @@ abstract class FlowEngine
     protected FlowSubject $subject;
 
     abstract protected function doRun(mixed $input): void;
-
+    
     final public function run(FlowSubject $subject, mixed $input): void
     {
+        if($subject->getCooldown() && now()->lt($subject->getCooldown())){
+            return;
+        }
+        
         $this->subject = $subject;
 
         try{
@@ -51,7 +55,7 @@ abstract class FlowEngine
         return $this->subject->getContext()[$key] ?? $default;
     }
 
-    final protected function stop(bool $persist): never
+    final protected function stop(bool $persist = true): never
     {
         throw new StopFlowException($persist);
     }
