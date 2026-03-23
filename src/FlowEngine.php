@@ -32,13 +32,13 @@ abstract class FlowEngine
         return $this;
     }
 
-    protected function transition(string $nextState): static
+    final protected function transition(string $nextState): static
     {
         $this->subject->setStateKey($nextState);
         return $this;
     }
 
-    protected function set(string $key, mixed $value): static
+    final protected function set(string $key, mixed $value): static
     {
         $context = $this->subject->getContext();
         $context[$key] = $value;
@@ -46,12 +46,12 @@ abstract class FlowEngine
         return $this;
     }
 
-    protected function get(string $key, mixed $default = null): mixed
+    final protected function get(string $key, mixed $default = null): mixed
     {
         return $this->subject->getContext()[$key] ?? $default;
     }
 
-    protected function stop(bool $persist): never
+    final protected function stop(bool $persist): never
     {
         throw new StopFlowException($persist);
     }
