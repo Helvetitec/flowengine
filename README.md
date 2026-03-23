@@ -29,6 +29,8 @@ abstract class FlowEngine
     final public function run(FlowSubject $subject, mixed $input): void;
 
     abstract protected function doRun(mixed $input): void;
+
+    final protected function stop(bool $persist = true): never;
 }
 ```
 
@@ -61,6 +63,8 @@ interface FlowSubject
 ```php
 class Chat extends Model implements FlowSubject
 {
+    use HasFlow;
+
     protected $casts = [
         'context' => 'array',
         'cooldown_until' => 'datetime',
@@ -153,6 +157,13 @@ class ChatFlow extends FlowEngine
 app(ChatFlow::class)->run($chat, $message);
 ```
 
+or
+
+```php 
+//With use HasFlow;
+$chat->runFlow($message);
+```
+
 You typically call this from:
 
 * Controllers
@@ -206,13 +217,13 @@ $this->cooldown(now()->addMinutes(10));
 ### Stop execution
 
 ```php
-$this->stop(); // persists
+$this->stop(); //persists
 ```
 
 or
 
 ```php
-$this->stopWithoutPersist();
+$this->stop(persist: false); //does not persist
 ```
 
 
