@@ -262,27 +262,6 @@ Persistence is handled automatically by the engine.
 ```
 
 
-## 🧠 Design Philosophy
-
-* Simple over complex
-* Explicit state handling
-* Fluent developer experience
-* Framework-agnostic logic
-* Minimal database structure
-
-
-## ✅ Summary
-
-FlowEngine gives you:
-
-* A clean state machine
-* Full control over flow logic
-* Persistent context
-* Extensible architecture
-* Laravel-friendly design
-
----
-
 ## 📄 AI Usage
 
 AI was used to create this readme file and for smaller parts of the code to make it cleaner.
