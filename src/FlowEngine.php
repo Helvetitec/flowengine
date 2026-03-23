@@ -28,7 +28,7 @@ abstract class FlowEngine
     final public function run(FlowSubject $subject, mixed $input): void
     {
         
-        if(!is_null($subject->active) && !$subject->active){
+        if(!is_null($subject->getActive()) && !$subject->getActive()){
             return;
         }
 

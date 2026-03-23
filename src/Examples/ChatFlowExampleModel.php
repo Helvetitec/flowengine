@@ -7,6 +7,9 @@ use Helvetitec\FlowEngine\Contracts\FlowSubject;
 use Helvetitec\FlowEngine\Traits\HasFlow;
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * @property bool $active
+ */
 class ChatFlowExampleModel extends Model implements FlowSubject
 {
     use HasFlow;
@@ -15,6 +18,11 @@ class ChatFlowExampleModel extends Model implements FlowSubject
         'context' => 'array',
         'cooldown_until' => 'datetime',
     ];
+
+    public function getActive(): bool
+    {
+        return $this->active;
+    }
 
     public function getStateKey(): string
     {

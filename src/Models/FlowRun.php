@@ -7,6 +7,13 @@ use Helvetitec\FlowEngine\Contracts\FlowSubject;
 use Helvetitec\FlowEngine\FlowEngine;
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * @property string $state_key
+ * @property array|null $context
+ * @property string $flow_class
+ * @property \Carbon\Carbon|null $cooldown_until
+ * @property bool $active
+ */
 class FlowRun extends Model implements FlowSubject
 {
     protected $table = 'flow_runs';
@@ -32,6 +39,11 @@ class FlowRun extends Model implements FlowSubject
         return $this->morphTo('subject');
     }
 
+    public function getActive(): bool
+    {
+        return $this->active;
+    }
+    
     public function getStateKey(): string
     {
         return $this->state_key;

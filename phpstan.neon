@@ -13,6 +13,7 @@ parameters:
         - '#Access to an undefined property Helvetitec\\FlowEngine\\Examples\\ChatFlowExampleModel::\$cooldown_until#'
         - '#Access to an undefined property Helvetitec\\FlowEngine\\Examples\\ChatFlowExampleModel::\$context#'
         - '#Access to an undefined property Helvetitec\\FlowEngine\\Examples\\ChatFlowExampleModel::\$state_key#'
+        - '#Access to an undefined property Helvetitec\\FlowEngine\\Examples\\ChatFlowExampleModel::\$flow_class#'
 #
 #    excludePaths:
 #        - ./*/*/FileToBeExcluded.php
