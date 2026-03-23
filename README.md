@@ -117,28 +117,7 @@ If you want you can use the FlowRuns which would allow multiple FlowEngines runn
 
 ```php
 //Add to your Subject (e.g Chat)
-class Chat extends Model
-{
-    public function flowRuns()
-    {
-        return $this->morphMany(FlowRun::class, 'subject');
-    }
-
-    public function runFlow(string $flowClass, mixed $input = null, bool $force = false)
-    {
-        $flowRun = $this->flowRuns()->firstOrCreate(
-            [
-                'flow_class' => $flowClass
-            ],
-            [
-                'state_key' => 'start', 
-                'active' => true
-            ]
-        );
-
-        $flowRun->runFlow($input, $force);
-    }
-}
+use HasFlowRuns;
 ```
 
 ### 2. Flow
@@ -200,7 +179,7 @@ $chat->runFlow($message);
 or 
 
 ```php
-//With FlowRun
+//With use HasFlowRuns;
 $chat->runFlow(ChatFlow::class, $message, $force);
 ```
 

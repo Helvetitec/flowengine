@@ -9,7 +9,7 @@ trait HasFlow
     public function resolveFlow(): FlowEngine
     {
         $flow = app($this->flow_class);
-        if (!$flow instanceof FlowEngine) {
+        if(!$flow instanceof FlowEngine){
             throw new \RuntimeException("Invalid flow class: {$this->flow_class}");
         }
         return $flow;
