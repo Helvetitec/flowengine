@@ -10,7 +10,6 @@ class ChatFlowExample extends FlowEngine
     protected function doRun(mixed $input): void
     {
         $state = $this->subject->getStateKey();
-
         match($state){
             'start' => $this->start(),
             'waiting' => $this->handleAnswer($input),
@@ -20,15 +19,22 @@ class ChatFlowExample extends FlowEngine
 
     protected function start(): void
     {
-        Log::debug("Sending some message...");
+        Log::debug("Sending message: \"Option 1 or 2?\"...");
 
         $this->transition('waiting')
-             ->stop();
+            ->set('options', [1,2])
+            ->stop();
     }
 
     protected function handleAnswer($input): void
     {
-        Log::debug("Handle this input: {$input}");
+        $options = $this->get('options');
+        if(!in_array($input, $options)){
+            Log::debug("Invalid input, as it is not inside options context");
+            $this->stop();
+            return;
+        }
+        Log::debug("Handle the input '{$input}'");
         $this->transition('done')
              ->cooldown(now()->addMinutes(5))
              ->stop();

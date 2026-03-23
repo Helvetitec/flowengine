@@ -130,11 +130,18 @@ class ChatFlow extends FlowEngine
         ChatService::send($this->subject, "Choose 1 or 2");
 
         $this->transition('waiting')
+             ->set('options', [1,2]) //Sets the context for the flow
              ->stop();
     }
 
     protected function handleAnswer($input): void
     {
+        $options = $this->get('options');
+        if(!in_array($input, $options)){
+            ChatService::send($this->subject, "Invalid input");
+            $this->stop();
+            return;
+        }
         ChatService::send($this->subject, "You chose: {$input}");
 
         $this->transition('done')
