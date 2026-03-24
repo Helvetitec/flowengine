@@ -91,6 +91,7 @@ interface FlowSubject
 ### 1.1. With FlowRuns (Recomended)
 
 If you want you can use the FlowRuns which would allow multiple FlowEngines running at the same time.
+The default state for every run is always 'start'.
 
 **Important:** Follow the steps inside setup first for this to work!
 

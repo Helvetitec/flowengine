@@ -17,7 +17,7 @@ class CreateFlowRunsTable extends Migration
             $table->id();
             $table->morphs('subject');
             $table->string('flow_class');
-            $table->string('state_key');
+            $table->string('state_key')->default('start');
             $table->json('context')->nullable();
             $table->dateTime('cooldown_until')->nullable();
             $table->boolean('active')->default(true);
