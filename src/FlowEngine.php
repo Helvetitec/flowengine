@@ -131,7 +131,7 @@ abstract class FlowEngine
      * Deletes an item from the context.
      *
      * @param string $key
-     * @return boolean
+     * @return static
      */
     final protected function delete(string $key): static
     {
