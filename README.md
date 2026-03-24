@@ -292,7 +292,7 @@ Persistence is handled automatically by the engine.
 
 ## 5. Hints
 
-## Enable/Disable flows
+### Enable/Disable flows
 
 You can fully disable flows by setting the setActive/getActive methods to a custom field or use setActive in FlowRuns.
 ```php
