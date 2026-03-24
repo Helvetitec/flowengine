@@ -59,6 +59,8 @@ abstract class FlowEngine
     final protected function stop(bool $persist = true): never;
 
     final protected function transitionAndStop(string $nextState): never;
+
+    final protected function deactivate(): never;
 }
 ```
 

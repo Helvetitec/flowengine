@@ -29,11 +29,11 @@ abstract class FlowEngine
     final public function run(FlowSubject $subject, mixed $input): void
     {
         
-        if(!is_null($subject->getActive()) && !$subject->getActive()){
+        if(!$subject->getActive()){
             return;
         }
 
-        if($subject->getCooldown() && now()->lt($subject->getCooldown())){
+        if($subject->getCooldown()?->isFuture()){
             return;
         }
         
@@ -41,7 +41,6 @@ abstract class FlowEngine
 
         try{
             $this->doRun($input);
-            $subject->persist();
         }catch(StopFlowException $e){
             if($e->persist){
                 $subject->persist();
@@ -53,7 +52,7 @@ abstract class FlowEngine
                 'flow_engine_state' => $subject?->getStateKey(),
                 'input' => $input
             ];
-            throw new FlowEngineException($e->getMessage(), $e->getCode(), $exceptionContext, $e->getPrevious());
+            throw new FlowEngineException($e->getMessage(), $e->getCode(), $exceptionContext, $e);
         }
     }
 
@@ -163,6 +162,17 @@ abstract class FlowEngine
     final protected function transitionAndStop(string $nextState): never
     {
         $this->transition($nextState);
+        $this->stop(true);
+    }
+
+    /**
+     * Deactivates the flow and stops it.
+     *
+     * @return never
+     */
+    final protected function deactivate(): never
+    {
+        $this->subject->setActive(false);
         $this->stop(true);
     }
 }
