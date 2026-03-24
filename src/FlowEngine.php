@@ -153,4 +153,16 @@ abstract class FlowEngine
     {
         throw new StopFlowException($persist);
     }
+
+    /**
+     * Sets the transition and stops. Persist will always set to true here as it wouldn't make sense otherwise. 
+     *
+     * @param string $nextState
+     * @return never
+     */
+    final protected function transitionAndStop(string $nextState): never
+    {
+        $this->transition($nextState);
+        $this->stop(true);
+    }
 }

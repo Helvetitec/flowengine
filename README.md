@@ -57,6 +57,8 @@ abstract class FlowEngine
     final protected function delete(string $key): static;
 
     final protected function stop(bool $persist = true): never;
+
+    final protected function transitionAndStop(string $nextState): never;
 }
 ```
 
