@@ -73,6 +73,7 @@ class Chat extends Model implements FlowSubject
     protected $casts = [
         'context' => 'array',
         'cooldown_until' => 'datetime',
+        'active' => 'boolean'
     ];
 
     public function getActive(): bool
