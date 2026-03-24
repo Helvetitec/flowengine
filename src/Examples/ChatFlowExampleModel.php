@@ -8,7 +8,11 @@ use Helvetitec\FlowEngine\Traits\HasFlow;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * @property bool $active
+ * @property string $flow_class
+ * @property string $state_key
+ * @property array $context
+ * @property Carbon $cooldown_until
+ * @property bool $flow_active
  */
 class ChatFlowExampleModel extends Model implements FlowSubject
 {

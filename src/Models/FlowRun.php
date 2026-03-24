@@ -84,6 +84,11 @@ class FlowRun extends Model implements FlowSubject
         $this->save();
     }
 
+    /**
+     * Resolves the current FlowEngine running based on flow_class.
+     *
+     * @return FlowEngine
+     */
     public function resolveFlow(): FlowEngine
     {
         $flow = app($this->flow_class);
@@ -93,6 +98,13 @@ class FlowRun extends Model implements FlowSubject
         return $flow;
     }
 
+    /**
+     * Run the flow with a certain input. If force is set to true it will overwrite any cooldown or active state.
+     *
+     * @param mixed $input
+     * @param boolean $force
+     * @return void
+     */
     public function runFlow(mixed $input = null, bool $force = false): void
     {
         if($force){
@@ -100,5 +112,29 @@ class FlowRun extends Model implements FlowSubject
             $this->cooldown_until = null;
         }
         $this->resolveFlow()->run($this, $input);
+    }
+
+    /**
+     * Removes all FlowRuns with a certain flowClass, flowType and flowId older than $clearOlderThan.
+     * 
+     * @param string $flowClass
+     * @param string|null $flowType
+     * @param string|null $flowId
+     * @param Carbon|null $clearOlderThan
+     * @return int
+     */
+    public static function clear(string $flowClass, ?string $flowType = null, ?string $flowId = null, ?Carbon $clearOlderThan = null): int
+    {
+        return FlowRun::where('flow_class', '=', $flowClass)
+            ->when($clearOlderThan, function($query) use($clearOlderThan){
+                $query->where('updated_at', '<', $clearOlderThan);
+            })
+            ->when(!empty($flowType), function($query) use($flowType){
+                $query->where('flow_type', '=', $flowType);
+            })
+            ->when(!empty($flowId), function($query) use($flowId){
+                $query->where('flow_id', '=', $flowId);
+            })
+            ->delete();
     }
 }
