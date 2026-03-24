@@ -43,6 +43,11 @@ class FlowRun extends Model implements FlowSubject
     {
         return $this->active;
     }
+
+    public function setActive(bool $active): void
+    {
+        $this->active = $active;
+    }
     
     public function getStateKey(): string
     {

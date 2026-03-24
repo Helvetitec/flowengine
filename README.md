@@ -77,6 +77,11 @@ class Chat extends Model implements FlowSubject
         return $this->active;
     }
 
+    public function setActive(bool $active): void
+    {
+        $this->active = $active;
+    }
+
     public function getStateKey(): string
     {
         return $this->state_key;
@@ -285,7 +290,31 @@ Persistence is handled automatically by the engine.
 'completed'
 ```
 
+## 5. Hints
 
-## 📄 AI Usage
+## Enable/Disable flows
+
+You can fully disable flows by setting the setActive/getActive methods to a custom field or use setActive in FlowRuns.
+```php
+protected $fillable = [
+    'flow_active'
+];
+
+protected $casts = [
+    'flow_active' => 'boolean'
+];
+
+public function setActive(bool $active): void
+{
+    $this->flow_active = $active;
+}
+
+public function getActive(): bool
+{
+    return $this->flow_active;
+}
+```
+
+## 6. 📄 AI Usage
 
 AI was used to create this readme file and for smaller parts of the code to make it cleaner.

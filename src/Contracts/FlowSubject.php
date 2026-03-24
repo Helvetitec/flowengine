@@ -7,6 +7,7 @@ use Carbon\Carbon;
 interface FlowSubject
 {
     public function getActive(): bool;
+    public function setActive(bool $active): void;
     
     public function getStateKey(): string;
     public function setStateKey(string $state): void;

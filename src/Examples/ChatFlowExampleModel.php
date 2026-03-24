@@ -17,11 +17,17 @@ class ChatFlowExampleModel extends Model implements FlowSubject
     protected $casts = [
         'context' => 'array',
         'cooldown_until' => 'datetime',
+        'flow_active' => 'boolean'
     ];
 
     public function getActive(): bool
     {
-        return $this->active;
+        return $this->flow_active;
+    }
+
+    public function setActive(bool $active): void
+    {
+        $this->flow_active = $active;
     }
 
     public function getStateKey(): string
