@@ -50,7 +50,7 @@ abstract class FlowEngine
 
     final protected function set(string $key, mixed $value): static;
 
-    final protected function get(string $key, mixed $default = null): mixed
+    final protected function get(string $key, mixed $default = null): mixed;
 
     final protected function stop(bool $persist = true): never;
 }
@@ -317,6 +317,22 @@ Persistence is handled automatically by the engine.
 ```
 
 ## 5. Hints
+
+### Exceptions
+
+The FlowEngine will throw a FlowEngineException if you call FlowEngine->run(). This exception has the following additional context for easier debugging:
+**flow_engine_class**
+Returns the class of the FlowEngine like ChatFlowExample.
+
+**flow_engine_context**
+Returns the current context of the FlowSubject.
+
+**flow_engine_state**
+Returns the current state of the FlowSubject.
+
+**input**
+Returns the latest input of the run.
+
 
 ### Enable/Disable flows
 

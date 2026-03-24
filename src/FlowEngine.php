@@ -4,6 +4,7 @@ namespace Helvetitec\FlowEngine;
 
 use Carbon\Carbon;
 use Helvetitec\FlowEngine\Contracts\FlowSubject;
+use Helvetitec\FlowEngine\Exceptions\FlowEngineException;
 use Helvetitec\FlowEngine\Exceptions\StopFlowException;
 
 abstract class FlowEngine
@@ -45,6 +46,14 @@ abstract class FlowEngine
             if($e->persist){
                 $subject->persist();
             }
+        }catch(\Throwable $e){
+            $exceptionContext = [
+                'flow_engine_class' => $this::class,
+                'flow_engine_context' => $subject?->getContext(),
+                'flow_engine_state' => $subject?->getStateKey(),
+                'input' => $input
+            ];
+            throw new FlowEngineException($e->getMessage(), $e->getCode(), $exceptionContext, $e->getPrevious());
         }
     }
 
