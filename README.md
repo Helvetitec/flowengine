@@ -34,7 +34,7 @@ abstract class FlowEngine
 
     final protected function transition(string $nextState): static;
 
-    final protected function set(string $key, mixed $value): static
+    final protected function set(string $key, mixed $value): static;
 
     final protected function get(string $key, mixed $default = null): mixed
 
