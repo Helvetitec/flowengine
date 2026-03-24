@@ -26,14 +26,21 @@ The base class that handles execution:
 ```php
 abstract class FlowEngine
 {
+    abstract protected function doRun(mixed $input): void;
+
     final public function run(FlowSubject $subject, mixed $input): void;
 
-    abstract protected function doRun(mixed $input): void;
+    final protected function cooldown(Carbon $until): static;
+
+    final protected function transition(string $nextState): static;
+
+    final protected function set(string $key, mixed $value): static
+
+    final protected function get(string $key, mixed $default = null): mixed
 
     final protected function stop(bool $persist = true): never;
 }
 ```
-
 
 ### FlowSubject
 
