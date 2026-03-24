@@ -97,7 +97,7 @@ abstract class FlowEngine
     }
 
     /**
-     * Gets the context with a specific key.
+     * Gets an item from the context or returns the default value.
      *
      * @param string $key
      * @param mixed $default
@@ -106,6 +106,41 @@ abstract class FlowEngine
     final protected function get(string $key, mixed $default = null): mixed
     {
         return $this->subject->getContext()[$key] ?? $default;
+    }
+
+    /**
+     * Pulls an item from the context an removes it or returns the default value.
+     *
+     * @param string $key
+     * @param mixed $default
+     * @param bool $persist
+     * @return mixed
+     */
+    final protected function pull(string $key, mixed $default = null, bool $persist = false): mixed
+    {
+        $context = $this->subject->getContext();
+        $value = $context[$key] ?? $default;
+        $this->delete($key);
+        if($persist){
+            $this->subject->persist();
+        }
+        return $value;
+    }
+
+    /**
+     * Deletes an item from the context.
+     *
+     * @param string $key
+     * @return boolean
+     */
+    final protected function delete(string $key): static
+    {
+        $context = $this->subject->getContext();
+        if(array_key_exists($key, $context)){
+            unset($context[$key]);
+            $this->subject->setContext($context);
+        }
+        return $this;
     }
 
     /**

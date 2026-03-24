@@ -52,6 +52,10 @@ abstract class FlowEngine
 
     final protected function get(string $key, mixed $default = null): mixed;
 
+    final protected function pull(string $key, mixed $default = null, bool $persist = false): mixed;
+
+    final protected function delete(string $key): static;
+
     final protected function stop(bool $persist = true): never;
 }
 ```
@@ -192,6 +196,7 @@ class ChatFlow extends FlowEngine
         ChatService::send($this->subject, "You chose: {$input}");
 
         $this->transition('done')
+             ->delete('options')
              ->cooldown(now()->addMinutes(5))
              ->stop();
     }
