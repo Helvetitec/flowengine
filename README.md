@@ -16,6 +16,20 @@ Typical flow:
 5. Stop execution
 6. Resume later (via new input or cooldown)
 
+## Setup
+
+### Normal usage
+No further setup needed
+
+### With FlowRuns
+1) Publish the migrations:
+```ps
+php artisan vendor:publish --tag="helvetitec.flowengine.migrations"
+```
+2) Run migrations:
+```ps
+php artisan migrate
+```
 
 ## 🧱 Core Components
 
