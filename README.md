@@ -258,12 +258,16 @@ Input → run() → doRun()
 
 ### Transition state
 
+Handles the transition between states.
+
 ```php
 $this->transition('next_state');
 ```
 
 
 ### Store data in context
+
+Stores and loads data from the context.
 
 ```php
 $this->set('key', 'value');
@@ -274,12 +278,16 @@ $value = $this->get('key');
 
 ### Cooldown
 
+Adds a cooldown between this run and the next run.
+
 ```php
 $this->cooldown(now()->addMinutes(10));
 ```
 
 
 ### Stop execution
+
+Stops the execution of the current flow.
 
 ```php
 $this->stop(); //persists
@@ -289,6 +297,23 @@ or
 
 ```php
 $this->stop(persist: false); //does not persist
+```
+
+
+### Transition and Stop
+
+Sets the next state and stops.
+
+```php
+$this->transitionAndStop('next_state');
+```
+
+### Deactivate
+
+Deactivates the flow and stops it.
+
+```php
+$this->deactivate();
 ```
 
 
