@@ -82,7 +82,18 @@ interface FlowSubject
 
 ## ⚡ Example Implementation
 
-### 1.1. Subject (e.g. Chat)
+### 1.1. With FlowRuns (Recomended)
+
+If you want you can use the FlowRuns which would allow multiple FlowEngines running at the same time.
+
+**Important:** Follow the steps inside setup first for this to work!
+
+```php
+//Add to your Subject (e.g Chat)
+use HasFlowRuns;
+```
+
+### 1.2. Without FlowRuns (e.g. Chat)
 
 If you only want to use one flow at a time.
 
@@ -144,16 +155,6 @@ class Chat extends Model implements FlowSubject
 }
 ```
 
-### 1.2. FlowRun (Recomended)
-
-If you want you can use the FlowRuns which would allow multiple FlowEngines running at the same time.
-
-**Important:** If you use this, please run php artisan vendor:publish --tag="helvetitec.flowengine.migrations"
-
-```php
-//Add to your Subject (e.g Chat)
-use HasFlowRuns;
-```
 
 ### 2. Flow
 
