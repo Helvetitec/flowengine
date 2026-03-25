@@ -44,6 +44,8 @@ abstract class FlowEngine
 
     final public function run(FlowSubject $subject, mixed $input): void;
 
+    final protected function subject(): FlowSubject;
+    
     final protected function cooldown(Carbon $until): static;
 
     final protected function transition(string $nextState): static;
@@ -84,6 +86,41 @@ interface FlowSubject
     public function setCooldown(Carbon $until): void;
 
     public function persist(): void;
+}
+```
+
+## FlowRun
+
+```php
+class FlowRun extends Model implements FlowSubject
+{
+    public function subject();
+
+    public function getActive(): bool;
+
+    public function setActive(bool $active): void;
+    
+    public function getStateKey(): string;
+
+    public function setStateKey(string $state): void;
+
+    public function getContext(): array;
+
+    public function setContext(array $context): void;
+
+    public function getCooldown(): ?Carbon;
+
+    public function setCooldown(Carbon $until): void;
+
+    public function persist(): void;
+
+    public function resolveFlow(): FlowEngine;
+
+    public function runFlow(mixed $input = null, bool $force = false): void;
+
+    public function mergeContext(array $data): static;
+
+    public static function clear(string $flowClass, ?string $flowType = null, ?string $flowId = null, ?Carbon $clearOlderThan = null): int;
 }
 ```
 
@@ -172,7 +209,11 @@ class ChatFlow extends FlowEngine
 {
     protected function doRun(mixed $input): void
     {
-        $state = $this->subject->getStateKey();
+        $state = $this->subject()->getStateKey();
+
+        if(!($this->subject() instanceof Chat)){
+            throw new LogicException("Subject is not instance of Chat!");
+        }
 
         match ($state) {
             'start' => $this->start(),
@@ -181,24 +222,24 @@ class ChatFlow extends FlowEngine
         };
     }
 
-    protected function start(): void
+    private function start(): void
     {
-        ChatService::send($this->subject, "Choose 1 or 2");
+        ChatService::send($this->subject(), "Choose 1 or 2");
 
         $this->transition('waiting')
              ->set('options', [1,2]) //Sets the context for the flow
              ->stop();
     }
 
-    protected function handleAnswer($input): void
+    private function handleAnswer($input): void
     {
         $options = $this->get('options');
         if(!in_array($input, $options)){
-            ChatService::send($this->subject, "Invalid input");
+            ChatService::send($this->subject(), "Invalid input");
             $this->stop();
             return;
         }
-        ChatService::send($this->subject, "You chose: {$input}");
+        ChatService::send($this->subject(), "You chose: {$input}");
 
         $this->transition('done')
              ->delete('options')
@@ -227,6 +268,8 @@ or
 ```php
 //With use HasFlowRuns;
 $chat->runFlow(ChatFlow::class, $message, $force);
+//With use HasFlowRuns and merged context
+$chat->startFlow(ChatFlow::class)->mergeContext(['some_context_to_start' => 'Hello World'])->runFlow("input");
 ```
 
 You typically call this from:
