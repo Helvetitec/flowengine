@@ -270,6 +270,8 @@ or
 $chat->runFlow(ChatFlow::class, $message, $force);
 //With use HasFlowRuns and merged context
 $chat->startFlow(ChatFlow::class)->mergeContext(['some_context_to_start' => 'Hello World'])->runFlow("input");
+//Update the context for all FlowRuns of the model at once.
+$chat->broadcastContext(['context_for_all_runs' => true]);
 ```
 
 You typically call this from:
