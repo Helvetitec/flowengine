@@ -46,7 +46,7 @@ abstract class FlowEngine
 
     final protected function subject(): FlowSubject;
     
-    final protected function cooldown(Carbon $until): static;
+    final protected function cooldown(?Carbon $until): static;
 
     final protected function transition(string $nextState): static;
 
@@ -82,8 +82,8 @@ interface FlowSubject
     public function getContext(): array;
     public function setContext(array $context): void;
 
-    public function getCooldown(): Carbon;
-    public function setCooldown(Carbon $until): void;
+    public function getCooldown(): ?Carbon;
+    public function setCooldown(?Carbon $until): void;
 
     public function persist(): void;
 }
@@ -110,7 +110,7 @@ class FlowRun extends Model implements FlowSubject
 
     public function getCooldown(): ?Carbon;
 
-    public function setCooldown(Carbon $until): void;
+    public function setCooldown(?Carbon $until): void;
 
     public function persist(): void;
 

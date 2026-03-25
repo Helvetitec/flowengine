@@ -57,10 +57,10 @@ interface FlowSubject
     /**
      * Sets the cooldown from a Carbon instance.
      *
-     * @param Carbon $until
+     * @param ?Carbon $until
      * @return void
      */
-    public function setCooldown(Carbon $until): void;
+    public function setCooldown(?Carbon $until): void;
     
     /**
      * Persists the data of the Subject.

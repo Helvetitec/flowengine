@@ -74,7 +74,7 @@ class FlowRun extends Model implements FlowSubject
         return $this->cooldown_until;
     }
 
-    public function setCooldown(Carbon $until): void
+    public function setCooldown(?Carbon $until): void
     {
         $this->cooldown_until = $until;
     }
