@@ -18,10 +18,6 @@ Typical flow:
 
 ## Setup
 
-### Normal usage
-No further setup needed
-
-### With FlowRuns
 1) Publish the migrations:
 ```ps
 php artisan vendor:publish --tag="helvetitec.flowengine.migrations"
@@ -127,80 +123,15 @@ class FlowRun extends Model implements FlowSubject
 
 ## ⚡ Example Implementation
 
-### 1.1. With FlowRuns (Recomended)
+### 1. FlowRuns
 
-If you want you can use the FlowRuns which would allow multiple FlowEngines running at the same time.
+FlowRuns allow multiple FlowEngines running at the same time.
 The default state for every run is always 'start'.
-
-**Important:** Follow the steps inside setup first for this to work!
 
 ```php
 //Add to your Subject (e.g Chat)
 use HasFlowRuns;
 ```
-
-### 1.2. Without FlowRuns (e.g. Chat)
-
-If you only want to use one flow at a time.
-
-```php
-class Chat extends Model implements FlowSubject
-{
-    use HasFlow;
-
-    protected $casts = [
-        'context' => 'array',
-        'cooldown_until' => 'datetime',
-        'active' => 'boolean'
-    ];
-
-    public function getActive(): bool
-    {
-        return $this->active;
-    }
-
-    public function setActive(bool $active): void
-    {
-        $this->active = $active;
-    }
-
-    public function getStateKey(): string
-    {
-        return $this->state_key;
-    }
-
-    public function setStateKey(string $state): void
-    {
-        $this->state_key = $state;
-    }
-
-    public function getContext(): array
-    {
-        return $this->context ?? [];
-    }
-
-    public function setContext(array $context): void
-    {
-        $this->context = $context;
-    }
-
-    public function getCooldown(): ?Carbon
-    {
-        return $this->cooldown_until;
-    }
-
-    public function setCooldown(Carbon $until): void
-    {
-        $this->cooldown_until = $until;
-    }
-
-    public function persist(): void
-    {
-        $this->save();
-    }
-}
-```
-
 
 ### 2. Flow
 
@@ -253,22 +184,8 @@ class ChatFlow extends FlowEngine
 ### 3. Triggering the Flow
 
 ```php
-app(ChatFlow::class)->run($chat, $message);
-```
-
-or
-
-```php 
-//With use HasFlow;
-$chat->runFlow($message);
-```
-
-or 
-
-```php
-//With use HasFlowRuns;
 $chat->runFlow(ChatFlow::class, $message, $force);
-//With use HasFlowRuns and merged context
+//With merged context
 $chat->startFlow(ChatFlow::class)->mergeContext(['some_context_to_start' => 'Hello World'])->runFlow("input");
 //Update the context for all FlowRuns of the model at once.
 $chat->broadcastContext(['context_for_all_runs' => true]);
@@ -322,6 +239,20 @@ $this->set('key', 'value');
 $value = $this->get('key');
 ```
 
+### Pull data from context and delete
+```php
+$value = $this->pull('key');
+```
+
+### Delete data from context
+```php
+$this->delete('key');
+```
+
+### Clear all data from context
+```php
+$this->clear();
+```
 
 ### Cooldown
 
@@ -361,6 +292,16 @@ Deactivates the flow and stops it.
 
 ```php
 $this->deactivate();
+```
+
+### Pause flow
+```php
+$this->pause(now()->addMinutes(5));
+```
+
+### Reset Flow
+```php
+$this->reset(now()->addHour());
 ```
 
 
