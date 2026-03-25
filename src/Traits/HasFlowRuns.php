@@ -12,18 +12,21 @@ trait HasFlowRuns
         return $this->morphMany(FlowRun::class, 'subject');
     }
 
-    public function runFlow(string $flowClass, mixed $input = null, bool $force = false)
+    public function startFlow(string $flowClass): FlowRun
     {
-        $flowRun = $this->flowRuns()->firstOrCreate(
+        return $this->flowRuns()->firstOrCreate(
             [
                 'flow_class' => $flowClass
             ],
             [
-                'state_key' => 'start', 
+                'state_key' => 'start',
                 'active' => true
             ]
         );
+    }
 
-        $flowRun->runFlow($input, $force);
+    public function runFlow(string $flowClass, mixed $input = null, bool $force = false)
+    {
+        $this->startFlow($flowClass)->runFlow($input, $force);
     }
 }
