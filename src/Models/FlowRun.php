@@ -115,6 +115,22 @@ class FlowRun extends Model implements FlowSubject
     }
 
     /**
+     * Adds the data to the context.
+     *
+     * @param array $data
+     * @return static
+     */
+    public function mergeContext(array $data): static
+    {
+        $this->setContext([
+            ...$this->getContext(),
+            ...$data,
+        ]);
+
+        return $this;
+    }
+
+    /**
      * Removes all FlowRuns with a certain flowClass, flowType and flowId older than $clearOlderThan.
      * 
      * @param string $flowClass
