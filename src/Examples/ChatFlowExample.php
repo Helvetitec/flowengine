@@ -9,7 +9,7 @@ class ChatFlowExample extends FlowEngine
 {
     protected function doRun(mixed $input): void
     {
-        $state = $this->subject->getStateKey();
+        $state = $this->subject()->getStateKey();
         match($state){
             'start' => $this->start(),
             'waiting' => $this->handleAnswer($input),
