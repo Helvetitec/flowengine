@@ -189,8 +189,8 @@ $chat->runFlow(ChatFlow::class, $message, $force);
 $chat->startFlow(ChatFlow::class)->mergeContext(['some_context_to_start' => 'Hello World'])->runFlow("input");
 //Update the context for all FlowRuns of the model at once.
 $chat->broadcastContext(['context_for_all_runs' => true]);
-//Returns the object related to the flow. In this case it would be $chat as well as it is the owner, but its powerful inside the FlowEngine as you can call subject()->owner.
-$chat->startFlow(ChatFlow::class)->subject()->owner;
+//Returns the object related to the flow. In this case it would be $chat as well as it is the owner, but its powerful inside the FlowEngine as you can call subject()->getOwner().
+$chat->startFlow(ChatFlow::class)->subject()->getOwner();
 ```
 
 You typically call this from:

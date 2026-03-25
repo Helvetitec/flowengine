@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use Helvetitec\FlowEngine\Contracts\FlowSubject;
 use Helvetitec\FlowEngine\FlowEngine;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\MorphTo;
 
 /**
  * @property string $state_key
@@ -34,7 +35,12 @@ class FlowRun extends Model implements FlowSubject
         'active' => 'boolean'
     ];
 
-    public function owner()
+    public function getOwner(): Model
+    {
+        return $this->owner;
+    }
+
+    public function owner(): MorphTo
     {
         return $this->morphTo('subject');
     }
