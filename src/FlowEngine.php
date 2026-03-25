@@ -158,6 +158,17 @@ abstract class FlowEngine
     }
 
     /**
+     * Removes everything from the context.
+     *
+     * @return static
+     */
+    protected function clear(): static
+    {
+        $this->subject->setContext([]);
+        return $this;
+    }
+
+    /**
      * Stops the flow.
      *
      * @param boolean $persist
@@ -188,6 +199,27 @@ abstract class FlowEngine
     final protected function deactivate(): never
     {
         $this->subject()->setActive(false);
+        $this->stop(true);
+    }
+
+    /**
+     * Resets the flow until cooldown and deletes its context if wished.
+     *
+     * @param Carbon|null $cooldownUntil
+     * @param boolean $deleteContext
+     * @return never
+     */
+    final protected function reset(?Carbon $cooldownUntil = null, bool $deleteContext = false): never
+    {
+        if($cooldownUntil){
+            $this->cooldown($cooldownUntil);
+        }
+
+        if($deleteContext){
+            $this->clear();
+        }
+
+        $this->transition('start');
         $this->stop(true);
     }
 }
