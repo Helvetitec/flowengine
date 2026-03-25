@@ -203,7 +203,19 @@ abstract class FlowEngine
     }
 
     /**
-     * Resets the flow until cooldown and deletes its context if wished.
+     * Pauses the flow for a certain amount of time
+     *
+     * @param Carbon $cooldownUntil
+     * @return never
+     */
+    protected function pause(Carbon $cooldownUntil): never
+    {
+        $this->cooldown($cooldownUntil);
+        $this->stop(true);
+    }
+
+    /**
+     * Resets the flow to the initial state and optionally applies a cooldown and deletes the context.
      *
      * @param Carbon|null $cooldownUntil
      * @param boolean $deleteContext
