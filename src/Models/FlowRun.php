@@ -34,7 +34,7 @@ class FlowRun extends Model implements FlowSubject
         'active' => 'boolean'
     ];
 
-    public function subject()
+    public function owner()
     {
         return $this->morphTo('subject');
     }
