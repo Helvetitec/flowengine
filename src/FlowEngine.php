@@ -6,10 +6,11 @@ use Carbon\Carbon;
 use Helvetitec\FlowEngine\Contracts\FlowSubject;
 use Helvetitec\FlowEngine\Exceptions\FlowEngineException;
 use Helvetitec\FlowEngine\Exceptions\StopFlowException;
+use LogicException;
 
 abstract class FlowEngine
 {
-    protected FlowSubject $subject;
+    private FlowSubject $subject;
 
     /**
      * Call run() instead. Do not use this on its own.
@@ -57,6 +58,20 @@ abstract class FlowEngine
     }
 
     /**
+     * Returns the current subject of the FlowEngine
+     *
+     * @return FlowSubject
+     */
+    final protected function subject(): FlowSubject
+    {
+        if (!isset($this->subject)) {
+            throw new LogicException('The subject was not set. Did you call run?');
+        }
+
+        return $this->subject;
+    }
+
+    /**
      * Sets the cooldown for the next run.
      *
      * @param Carbon $until
@@ -64,7 +79,7 @@ abstract class FlowEngine
      */
     final protected function cooldown(Carbon $until): static
     {
-        $this->subject->setCooldown($until);
+        $this->subject()->setCooldown($until);
         return $this;
     }
 
@@ -76,7 +91,7 @@ abstract class FlowEngine
      */
     final protected function transition(string $nextState): static
     {
-        $this->subject->setStateKey($nextState);
+        $this->subject()->setStateKey($nextState);
         return $this;
     }
 
@@ -89,9 +104,9 @@ abstract class FlowEngine
      */
     final protected function set(string $key, mixed $value): static
     {
-        $context = $this->subject->getContext();
+        $context = $this->subject()->getContext();
         $context[$key] = $value;
-        $this->subject->setContext($context);
+        $this->subject()->setContext($context);
         return $this;
     }
 
@@ -104,7 +119,7 @@ abstract class FlowEngine
      */
     final protected function get(string $key, mixed $default = null): mixed
     {
-        return $this->subject->getContext()[$key] ?? $default;
+        return $this->subject()->getContext()[$key] ?? $default;
     }
 
     /**
@@ -117,11 +132,11 @@ abstract class FlowEngine
      */
     final protected function pull(string $key, mixed $default = null, bool $persist = false): mixed
     {
-        $context = $this->subject->getContext();
+        $context = $this->subject()->getContext();
         $value = $context[$key] ?? $default;
         $this->delete($key);
         if($persist){
-            $this->subject->persist();
+            $this->subject()->persist();
         }
         return $value;
     }
@@ -134,10 +149,10 @@ abstract class FlowEngine
      */
     final protected function delete(string $key): static
     {
-        $context = $this->subject->getContext();
+        $context = $this->subject()->getContext();
         if(array_key_exists($key, $context)){
             unset($context[$key]);
-            $this->subject->setContext($context);
+            $this->subject()->setContext($context);
         }
         return $this;
     }
@@ -172,7 +187,7 @@ abstract class FlowEngine
      */
     final protected function deactivate(): never
     {
-        $this->subject->setActive(false);
+        $this->subject()->setActive(false);
         $this->stop(true);
     }
 }
