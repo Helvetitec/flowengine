@@ -34,7 +34,7 @@ abstract class FlowEngine
             return;
         }
 
-        if($subject->getCooldown()?->isFuture()){
+        if($subject->getCooldown() && $subject->getCooldown()?->isFuture()){
             return;
         }
         
@@ -74,10 +74,10 @@ abstract class FlowEngine
     /**
      * Sets the cooldown for the next run.
      *
-     * @param Carbon $until
+     * @param ?Carbon $until
      * @return static
      */
-    final protected function cooldown(Carbon $until): static
+    final protected function cooldown(?Carbon $until): static
     {
         $this->subject()->setCooldown($until);
         return $this;
@@ -198,6 +198,7 @@ abstract class FlowEngine
      */
     final protected function deactivate(): never
     {
+        $this->subject()->setCooldown(null);
         $this->subject()->setActive(false);
         $this->stop(true);
     }
