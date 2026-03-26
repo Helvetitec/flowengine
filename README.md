@@ -191,6 +191,10 @@ $chat->startFlow(ChatFlow::class)->mergeContext(['some_context_to_start' => 'Hel
 $chat->broadcastContext(['context_for_all_runs' => true]);
 //Returns the object related to the flow. In this case it would be $chat as well as it is the owner, but its powerful inside the FlowEngine as you can call subject()->getOwner().
 $chat->startFlow(ChatFlow::class)->subject()->getOwner();
+//Clears all flowruns older than a specific date with the selected flowclass
+FlowRun::clear(flowClass: ChatFlow::class, clearOlderThan: now()->subMonth());
+//Clears all flowruns from a specific model
+FlowRun::clear(ChatFlow::class, Chat::class, 1, now()->subMonth());
 ```
 
 You typically call this from:
