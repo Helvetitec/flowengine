@@ -36,6 +36,8 @@ abstract class FlowEngine
 
         if($subject->getCooldown() && $subject->getCooldown()?->isFuture()){
             return;
+        }elseif($subject->getCooldown()){
+            $subject->setCooldown(null);
         }
         
         $this->subject = $subject;
