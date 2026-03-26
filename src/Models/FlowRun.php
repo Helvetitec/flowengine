@@ -159,4 +159,15 @@ class FlowRun extends Model implements FlowSubject
             })
             ->delete();
     }
+
+    /**
+     * Removes all FlowRuns older than $clearOlderThan.
+     * 
+     * @param Carbon $clearOlderThan
+     * @return int
+     */
+    public static function clearAll(Carbon $clearOlderThan):int 
+    {
+        return FlowRun::where('updated_at', '<', $clearOlderThan)->delete();
+    }
 }

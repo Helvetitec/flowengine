@@ -195,6 +195,8 @@ $chat->startFlow(ChatFlow::class)->subject()->getOwner();
 FlowRun::clear(ChatFlow::class, now()->subMonth());
 //Clears all flowruns from a specific model
 FlowRun::clear(ChatFlow::class, now()->subMonth(), Chat::class, 1);
+//Clears all flowruns older than a specific date. Prefer to use the more specific ones!
+FlowRun::clearAll(now()->subMonth());
 ```
 
 You typically call this from:
