@@ -128,6 +128,11 @@ class FlowRun extends Model implements FlowSubject
      */
     public function mergeContext(array $data): static
     {
+        if(is_null($this->getContext())){
+            $this->setContext($data);
+            return $this;
+        }
+        
         $this->setContext([
             ...$this->getContext(),
             ...$data,
