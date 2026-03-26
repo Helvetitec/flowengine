@@ -76,7 +76,7 @@ interface FlowSubject
     public function setStateKey(string $state): void;
 
     public function getContext(): array;
-    public function setContext(array $context): void;
+    public function setContext(?array $context): void;
 
     public function getCooldown(): ?Carbon;
     public function setCooldown(?Carbon $until): void;
@@ -102,7 +102,7 @@ class FlowRun extends Model implements FlowSubject
 
     public function getContext(): array;
 
-    public function setContext(array $context): void;
+    public function setContext(?array $context): void;
 
     public function getCooldown(): ?Carbon;
 

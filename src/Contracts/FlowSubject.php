@@ -46,16 +46,17 @@ interface FlowSubject
     /**
      * Returns the context as array.
      *
-     * @return array
+     * @return ?array
      */
-    public function getContext(): array;
+    public function getContext(): ?array;
+    
     /**
      * Sets the current context
      *
-     * @param array $context
+     * @param ?array $context
      * @return void
      */
-    public function setContext(array $context): void;
+    public function setContext(?array $context): void;
 
     /**
      * Returns a Carbon instance of the cooldown.

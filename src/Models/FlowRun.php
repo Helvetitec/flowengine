@@ -65,12 +65,12 @@ class FlowRun extends Model implements FlowSubject
         $this->state_key = $state;
     }
 
-    public function getContext(): array
+    public function getContext(): ?array
     {
-        return $this->context ?? [];
+        return $this->context ?? null;
     }
 
-    public function setContext(array $context): void
+    public function setContext(?array $context): void
     {
         $this->context = $context;
     }

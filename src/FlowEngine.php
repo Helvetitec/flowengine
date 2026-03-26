@@ -152,7 +152,7 @@ abstract class FlowEngine
         $context = $this->subject()->getContext();
         if(array_key_exists($key, $context)){
             unset($context[$key]);
-            $this->subject()->setContext($context);
+            $this->subject()->setContext(count($context) < 1 ? null : $context);
         }
         return $this;
     }
@@ -164,7 +164,7 @@ abstract class FlowEngine
      */
     protected function clear(): static
     {
-        $this->subject->setContext([]);
+        $this->subject->setContext(null);
         return $this;
     }
 
