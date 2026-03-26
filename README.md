@@ -116,7 +116,7 @@ class FlowRun extends Model implements FlowSubject
 
     public function mergeContext(array $data): static;
 
-    public static function clear(string $flowClass, ?string $flowType = null, ?string $flowId = null, ?Carbon $clearOlderThan = null): int;
+    public static function clear(string $flowClass, ?Carbon $clearOlderThan = null, ?string $flowType = null, ?string $flowId = null): int;
 }
 ```
 
@@ -192,9 +192,9 @@ $chat->broadcastContext(['context_for_all_runs' => true]);
 //Returns the object related to the flow. In this case it would be $chat as well as it is the owner, but its powerful inside the FlowEngine as you can call subject()->getOwner().
 $chat->startFlow(ChatFlow::class)->subject()->getOwner();
 //Clears all flowruns older than a specific date with the selected flowclass
-FlowRun::clear(flowClass: ChatFlow::class, clearOlderThan: now()->subMonth());
+FlowRun::clear(ChatFlow::class, now()->subMonth());
 //Clears all flowruns from a specific model
-FlowRun::clear(ChatFlow::class, Chat::class, 1, now()->subMonth());
+FlowRun::clear(ChatFlow::class, now()->subMonth(), Chat::class, 1);
 ```
 
 You typically call this from:

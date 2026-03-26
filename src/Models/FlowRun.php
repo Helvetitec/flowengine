@@ -140,12 +140,12 @@ class FlowRun extends Model implements FlowSubject
      * Removes all FlowRuns with a certain flowClass, flowType and flowId older than $clearOlderThan.
      * 
      * @param string $flowClass
+     * @param Carbon|null $clearOlderThan
      * @param string|null $flowType
      * @param string|null $flowId
-     * @param Carbon|null $clearOlderThan
      * @return int
      */
-    public static function clear(string $flowClass, ?string $flowType = null, ?string $flowId = null, ?Carbon $clearOlderThan = null): int
+    public static function clear(string $flowClass, ?Carbon $clearOlderThan = null, ?string $flowType = null, ?string $flowId = null): int
     {
         return FlowRun::where('flow_class', '=', $flowClass)
             ->when($clearOlderThan, function($query) use($clearOlderThan){
