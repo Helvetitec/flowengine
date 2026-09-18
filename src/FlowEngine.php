@@ -122,7 +122,7 @@ abstract class FlowEngine
     final protected function increment(string $key, int $value = 1): static
     {
         $context = $this->subject()->getContext();
-        $number = $context[$key];
+        $number = $context[$key] ?? 0;
         if(!is_numeric($number)){
             throw new \Exception("Can't increase \"{$key}\" because value \"{$number}\" is not numeric!");
         }
@@ -142,7 +142,7 @@ abstract class FlowEngine
     final protected function decrement(string $key, int $value = 1): static
     {
         $context = $this->subject()->getContext();
-        $number = $context[$key];
+        $number = $context[$key] ?? 0;
         if(!is_numeric($number)){
             throw new \Exception("Can't increase \"{$key}\" because value \"{$number}\" is not numeric!");
         }
