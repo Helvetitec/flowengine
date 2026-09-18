@@ -48,6 +48,10 @@ abstract class FlowEngine
 
     final protected function set(string $key, mixed $value): static;
 
+    final protected function increase(string $key, int $value = 1): static;
+
+    final protected function decrease(string $key, int $value = 1): static;
+
     final protected function get(string $key, mixed $default = null): mixed;
 
     final protected function pull(string $key, mixed $default = null, bool $persist = false): mixed;
@@ -243,6 +247,22 @@ Stores and loads data from the context.
 $this->set('key', 'value');
 
 $value = $this->get('key');
+```
+
+### Increase data in context
+
+Increases data from the context.
+
+```php
+$this->increase('key', 5); //Will increase the value at 'key' by 5 or throw an exception if value is not numeric.
+```
+
+### Decrease data in context
+
+Decreases data from the context.
+
+```php
+$this->decrease('key', 5); //Will decrease the value at 'key' by 5 or throw an exception if value is not numeric.
 ```
 
 ### Pull data from context and delete
