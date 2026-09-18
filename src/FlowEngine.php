@@ -119,7 +119,7 @@ abstract class FlowEngine
      * @param integer $value
      * @return static
      */
-    final protected function increase(string $key, int $value = 1): static
+    final protected function increment(string $key, int $value = 1): static
     {
         $context = $this->subject()->getContext();
         $number = $context[$key];
@@ -139,7 +139,7 @@ abstract class FlowEngine
      * @param integer $value
      * @return static
      */
-    final protected function decrease(string $key, int $value = 1): static
+    final protected function decrement(string $key, int $value = 1): static
     {
         $context = $this->subject()->getContext();
         $number = $context[$key];

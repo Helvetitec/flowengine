@@ -254,7 +254,7 @@ $value = $this->get('key');
 Increases data from the context.
 
 ```php
-$this->increase('key', 5); //Will increase the value at 'key' by 5 or throw an exception if value is not numeric.
+$this->increment('key', 5); //Will increase the value at 'key' by 5 or throw an exception if value is not numeric.
 ```
 
 ### Decrease data in context
@@ -262,7 +262,7 @@ $this->increase('key', 5); //Will increase the value at 'key' by 5 or throw an e
 Decreases data from the context.
 
 ```php
-$this->decrease('key', 5); //Will decrease the value at 'key' by 5 or throw an exception if value is not numeric.
+$this->decrement('key', 5); //Will decrease the value at 'key' by 5 or throw an exception if value is not numeric.
 ```
 
 ### Pull data from context and delete
