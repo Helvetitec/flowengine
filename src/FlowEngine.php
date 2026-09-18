@@ -113,6 +113,46 @@ abstract class FlowEngine
     }
 
     /**
+     * Increases the context for the next run.
+     *
+     * @param string $key
+     * @param integer $value
+     * @return static
+     */
+    final protected function increment(string $key, int $value = 1): static
+    {
+        $context = $this->subject()->getContext();
+        $number = $context[$key];
+        if(!is_numeric($number)){
+            throw new \Exception("Can't increase \"{$key}\" because value \"{$number}\" is not numeric!");
+        }
+        $number += $value;
+        $context[$key] = $number;
+        $this->subject()->setContext($context);
+        return $this;
+    }
+    
+    /**
+     * Decreases the context for the next run.
+     *
+     * @param string $key
+     * @param integer $value
+     * @return static
+     */
+    final protected function decrement(string $key, int $value = 1): static
+    {
+        $context = $this->subject()->getContext();
+        $number = $context[$key];
+        if(!is_numeric($number)){
+            throw new \Exception("Can't increase \"{$key}\" because value \"{$number}\" is not numeric!");
+        }
+        $number -= $value;
+        $context[$key] = $number;
+        $this->subject()->setContext($context);
+        return $this;
+    }
+    
+    /**
      * Gets an item from the context or returns the default value.
      *
      * @param string $key
