@@ -48,9 +48,9 @@ abstract class FlowEngine
 
     final protected function set(string $key, mixed $value): static;
 
-    final protected function increase(string $key, int $value = 1): static;
+    final protected function increment(string $key, int $value = 1): static;
 
-    final protected function decrease(string $key, int $value = 1): static;
+    final protected function decrement(string $key, int $value = 1): static;
 
     final protected function get(string $key, mixed $default = null): mixed;
 
