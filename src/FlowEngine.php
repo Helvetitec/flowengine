@@ -3,6 +3,7 @@
 namespace Helvetitec\FlowEngine;
 
 use Carbon\Carbon;
+use Carbon\CarbonImmutable;
 use Helvetitec\FlowEngine\Contracts\FlowSubject;
 use Helvetitec\FlowEngine\Exceptions\FlowEngineException;
 use Helvetitec\FlowEngine\Exceptions\StopFlowException;
@@ -76,10 +77,10 @@ abstract class FlowEngine
     /**
      * Sets the cooldown for the next run.
      *
-     * @param ?Carbon $until
+     * @param Carbon|CarbonImmutable|null $until
      * @return static
      */
-    final protected function cooldown(?Carbon $until): static
+    final protected function cooldown(Carbon|CarbonImmutable|null $until): static
     {
         $this->subject()->setCooldown($until);
         return $this;
@@ -248,10 +249,10 @@ abstract class FlowEngine
     /**
      * Pauses the flow for a certain amount of time
      *
-     * @param Carbon $cooldownUntil
+     * @param Carbon|CarbonImmutable $cooldownUntil
      * @return never
      */
-    protected function pause(Carbon $cooldownUntil): never
+    protected function pause(Carbon|CarbonImmutable $cooldownUntil): never
     {
         $this->cooldown($cooldownUntil);
         $this->stop(true);
@@ -260,11 +261,11 @@ abstract class FlowEngine
     /**
      * Resets the flow to the initial state and optionally applies a cooldown and deletes the context.
      *
-     * @param Carbon|null $cooldownUntil
+     * @param Carbon|CarbonImmutable|null $cooldownUntil
      * @param boolean $deleteContext
      * @return never
      */
-    final protected function reset(?Carbon $cooldownUntil = null, bool $deleteContext = false): never
+    final protected function reset(Carbon|CarbonImmutable|null $cooldownUntil = null, bool $deleteContext = false): never
     {
         if($cooldownUntil){
             $this->cooldown($cooldownUntil);
