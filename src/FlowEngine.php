@@ -56,7 +56,7 @@ abstract class FlowEngine
                 'flow_engine_state' => $subject?->getStateKey(),
                 'input' => $input
             ];
-            throw new FlowEngineException($e->getMessage(), $e->getCode(), $exceptionContext, $e);
+            throw new FlowEngineException($e->getMessage(), (int) $e->getCode(), $exceptionContext, $e);
         }
     }
 
