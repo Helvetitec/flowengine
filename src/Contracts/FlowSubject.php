@@ -3,6 +3,7 @@
 namespace Helvetitec\FlowEngine\Contracts;
 
 use Carbon\Carbon;
+use Carbon\CarbonImmutable;
 use Illuminate\Database\Eloquent\Model;
 
 interface FlowSubject
@@ -61,16 +62,16 @@ interface FlowSubject
     /**
      * Returns a Carbon instance of the cooldown.
      *
-     * @return Carbon|null
+     * @return Carbon|CarbonImmutable|null
      */
-    public function getCooldown(): ?Carbon;
+    public function getCooldown(): Carbon|CarbonImmutable|null;
     /**
      * Sets the cooldown from a Carbon instance.
      *
-     * @param ?Carbon $until
+     * @param Carbon|CarbonImmutable|null $until
      * @return void
      */
-    public function setCooldown(?Carbon $until): void;
+    public function setCooldown(Carbon|CarbonImmutable|null $until): void;
     
     /**
      * Persists the data of the Subject.

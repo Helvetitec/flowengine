@@ -42,7 +42,7 @@ abstract class FlowEngine
 
     final protected function subject(): FlowSubject;
     
-    final protected function cooldown(?Carbon $until): static;
+    final protected function cooldown(Carbon|CarbonImmutable|null $until): static;
 
     final protected function transition(string $nextState): static;
 
@@ -82,8 +82,8 @@ interface FlowSubject
     public function getContext(): array;
     public function setContext(?array $context): void;
 
-    public function getCooldown(): ?Carbon;
-    public function setCooldown(?Carbon $until): void;
+    public function getCooldown(): Carbon|CarbonImmutable|null;
+    public function setCooldown(Carbon|CarbonImmutable|null $until): void;
 
     public function persist(): void;
 }
@@ -108,9 +108,9 @@ class FlowRun extends Model implements FlowSubject
 
     public function setContext(?array $context): void;
 
-    public function getCooldown(): ?Carbon;
+    public function getCooldown(): Carbon|CarbonImmutable|null;
 
-    public function setCooldown(?Carbon $until): void;
+    public function setCooldown(Carbon|CarbonImmutable|null $until): void;
 
     public function persist(): void;
 
@@ -120,7 +120,7 @@ class FlowRun extends Model implements FlowSubject
 
     public function mergeContext(array $data): static;
 
-    public static function clear(string $flowClass, ?Carbon $clearOlderThan = null, ?string $flowType = null, ?string $flowId = null): int;
+    public static function clear(string $flowClass, Carbon|CarbonImmutable|null $clearOlderThan = null, ?string $flowType = null, ?string $flowId = null): int;
 }
 ```
 

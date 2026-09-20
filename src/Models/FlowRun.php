@@ -3,6 +3,7 @@
 namespace Helvetitec\FlowEngine\Models;
 
 use Carbon\Carbon;
+use Carbon\CarbonImmutable;
 use Helvetitec\FlowEngine\Contracts\FlowSubject;
 use Helvetitec\FlowEngine\FlowEngine;
 use Illuminate\Database\Eloquent\Model;
@@ -75,12 +76,12 @@ class FlowRun extends Model implements FlowSubject
         $this->context = $context;
     }
 
-    public function getCooldown(): ?Carbon
+    public function getCooldown(): Carbon|CarbonImmutable|null
     {
         return $this->cooldown_until;
     }
 
-    public function setCooldown(?Carbon $until): void
+    public function setCooldown(Carbon|CarbonImmutable|null $until): void
     {
         $this->cooldown_until = $until;
     }
@@ -145,12 +146,12 @@ class FlowRun extends Model implements FlowSubject
      * Removes all FlowRuns with a certain flowClass, flowType and flowId older than $clearOlderThan.
      * 
      * @param string $flowClass
-     * @param Carbon|null $clearOlderThan
+     * @param Carbon|CarbonImmutable|null $clearOlderThan
      * @param string|null $flowType
      * @param string|null $flowId
      * @return int
      */
-    public static function clear(string $flowClass, ?Carbon $clearOlderThan = null, ?string $flowType = null, ?string $flowId = null): int
+    public static function clear(string $flowClass, Carbon|CarbonImmutable|null $clearOlderThan = null, ?string $flowType = null, ?string $flowId = null): int
     {
         return FlowRun::where('flow_class', '=', $flowClass)
             ->when($clearOlderThan, function($query) use($clearOlderThan){
@@ -168,10 +169,10 @@ class FlowRun extends Model implements FlowSubject
     /**
      * Removes all FlowRuns older than $clearOlderThan.
      * 
-     * @param Carbon $clearOlderThan
+     * @param Carbon|CarbonImmutable $clearOlderThan
      * @return int
      */
-    public static function clearAll(Carbon $clearOlderThan):int 
+    public static function clearAll(Carbon|CarbonImmutable $clearOlderThan):int 
     {
         return FlowRun::where('updated_at', '<', $clearOlderThan)->delete();
     }
