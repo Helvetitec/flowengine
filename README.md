@@ -73,6 +73,8 @@ Any model that participates in a flow must implement:
 ```php
 interface FlowSubject
 {
+    public function getOwner(): ?Model;
+    
     public function getActive(): bool;
     public function setActive(bool $active): void;
 
