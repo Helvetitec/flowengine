@@ -12,9 +12,9 @@ interface FlowSubject
     /**
      * Returns the current owner (Model) of the flow
      *
-     * @return Model
+     * @return ?Model
      */
-    public function getOwner(): Model;
+    public function getOwner(): ?Model;
 
     /**
      * Returns the current active state of the flow. If this returns false, the flow won't run except it is forced to.
